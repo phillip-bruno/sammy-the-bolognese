@@ -30,7 +30,6 @@
     header h1 { font-size: 1.8rem; letter-spacing: 0.02em; }
     header p  { font-size: 0.95rem; color: #e0c8a8; margin-top: 3px; }
 
-    /* ── collage container ── */
     #collage {
       flex: 1;
       display: grid;
@@ -138,8 +137,14 @@
     const collage = document.getElementById('collage');
     const empty   = document.getElementById('empty');
 
+    // Fisher-Yates shuffle — guaranteed uniform random ordering
     function shuffle(arr) {
-      return [...arr].sort(() => Math.random() - 0.5);
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
     }
 
     function render() {
