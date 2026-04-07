@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sammy the Bolognese 🐾</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Georgia', serif;
+      background: #fdf6ec;
+      color: #4a3728;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #8b6348;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .gallery img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+      transition: transform 0.2s;
+    }
+    .gallery img:hover { transform: scale(1.03); }
+    .add-note {
+      margin-top: 48px;
+      background: #fff3e0;
+      border: 2px dashed #e0a96d;
+      border-radius: 12px;
+      padding: 24px 32px;
+      max-width: 600px;
+      text-align: center;
+      color: #7a5230;
+    }
+    footer {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #b08060;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐶 Sammy the Bolognese</h1>
+  <p class="subtitle">A fluffy little cloud with a waggy tail ☁️🐾</p>
+
+  <div class="gallery" id="gallery">
+    <!-- Add <img> tags here pointing to photos in the /images folder -->
+    <!-- Example: <img src="images/sammy1.jpg" alt="Sammy being adorable"> -->
+  </div>
+
+  <div class="add-note">
+    <strong>📸 Add Sammy's photos!</strong><br/>
+    Upload your images to the <code>images/</code> folder in this repo, then add
+    <code>&lt;img src="images/your-photo.jpg"&gt;</code> tags inside the
+    <code>#gallery</code> div in <code>index.html</code>.
+  </div>
+
+  <footer>Made with ❤️ for Sammy</footer>
+</body>
+</html>
