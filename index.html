@@ -57,14 +57,14 @@
       position: relative;
       cursor: pointer;
     }
-    .tile img {
+    .tile img, .tile video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
       transition: transform 0.35s ease;
     }
-    .tile:hover img { transform: scale(1.04); }
+    .tile:hover img, .tile:hover video { transform: scale(1.04); }
 
     #shuffle {
       position: fixed;
@@ -117,25 +117,26 @@
 
   <script>
     // ─────────────────────────────────────────────
-    // ADD YOUR PHOTO FILENAMES HERE (inside images/)
-    const PHOTOS = [
-      "2025-04-13 11.06.13.jpg",
-      "2025-04-17 08.31.14.jpg",
-      "2025-04-18 16.27.53.jpg",
-      "PXL_20250626_003420709.jpg",
-      "a_rank_cropped.jpeg",
-      "b_rank_cropped.jpg",
-      "c_rank_cropped.jpeg",
-      "d_rank.jpg",
-      "e_rank_cropped.jpeg",
-      "s_rank_crop.jpg",
-      "signal-2025-06-21-12-57-43-883~2.jpg",
-      "signal-2026-02-23-134057.jpeg",
-      "signal-2026-02-23-134057_002.jpeg",
-      "signal-2026-02-23-134057_003.jpeg",
-      "signal-2026-02-23-134057_004.jpeg",
-      "signal-2026-02-23-134057_005.jpeg"
-          ];
+    // Media entries: { file, type } — type is 'image' or 'video'
+    const MEDIA = [
+      { file: "2025-04-13 11.06.43.jpg",                type: "image" },
+      { file: "2025-04-17 08.31.07.jpg",                type: "image" },
+      { file: "2025-04-18 16.27.53.jpg",                type: "image" },
+      { file: "PXL_20250413_224245362.mp4",             type: "video" },
+      { file: "PXL_20250626_003420709.jpg",             type: "image" },
+      { file: "a_rank_cropped.jpeg",                    type: "image" },
+      { file: "b_rank_cropped.jpg",                     type: "image" },
+      { file: "c_rank_cropped.jpeg",                    type: "image" },
+      { file: "d_rank.jpg",                             type: "image" },
+      { file: "e_rank_cropped.jpeg",                    type: "image" },
+      { file: "s_rank_crop.jpg",                        type: "image" },
+      { file: "signal-2025-06-21-12-57-43-883~2.jpg",   type: "image" },
+      { file: "signal-2026-02-23-134057.jpeg",          type: "image" },
+      { file: "signal-2026-02-23-134057_002.jpeg",      type: "image" },
+      { file: "signal-2026-02-23-134057_003.jpeg",      type: "image" },
+      { file: "signal-2026-02-23-134057_004.jpeg",      type: "image" },
+      { file: "signal-2026-02-23-134057_005.jpeg",      type: "image" }
+    ];
     // ─────────────────────────────────────────────
 
     const collage = document.getElementById('collage');
@@ -154,27 +155,41 @@
     function render() {
       collage.innerHTML = '';
 
-      if (!PHOTOS.length) {
+      if (!MEDIA.length) {
         collage.style.display = 'none';
         empty.style.display   = 'flex';
         document.getElementById('shuffle').style.display = 'none';
         return;
       }
 
-      const picked = shuffle(PHOTOS).slice(0, 4);
+      const picked = shuffle(MEDIA).slice(0, 4);
       const count  = picked.length;
 
       collage.className = `count-${count}`;
       collage.style.display = 'grid';
       empty.style.display   = 'none';
 
-      picked.forEach(filename => {
+      picked.forEach(item => {
         const tile = document.createElement('div');
         tile.className = 'tile';
-        const img = document.createElement('img');
-        img.src = `images/${filename}`;
-        img.alt = 'Sammy 🐾';
-        tile.appendChild(img);
+
+        if (item.type === 'video') {
+          const video = document.createElement('video');
+          video.src = `images/${item.file}`;
+          video.autoplay = true;
+          video.loop = true;
+          video.muted = true;
+          video.playsInline = true;
+          video.setAttribute('aria-label', 'Sammy video 🐾');
+          tile.appendChild(video);
+        } else {
+          const img = document.createElement('img');
+          img.src = `images/${encodeURIComponent(item.file)}`;
+          img.alt = 'Sammy 🐾';
+          img.loading = 'lazy';
+          tile.appendChild(img);
+        }
+
         collage.appendChild(tile);
       });
     }
