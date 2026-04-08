@@ -3,19 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#f7efe5" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1008" media="(prefers-color-scheme: dark)" />
   <title>Sammy the Bolognese 🐾</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Theme tokens ── */
+    :root {
+      color-scheme: light dark;
+
+      --bg:           #f7efe5;
+      --bg-grad-1:    #fff8f0;
+      --bg-grad-2:    #f1dcc1;
+      --text:         #3f2a16;
+      --muted:        #7a5a3a;
+      --header-bg:    rgba(255, 248, 240, 0.72);
+      --empty-code-bg:#f1e1cc;
+      --accent:       #c98645;
+      --accent-hover: #d99656;
+      --accent-text:  #2c1808;
+      --shimmer-mid:  rgba(180, 110, 50, 0.5);
+      --shimmer-far:  rgba(180, 110, 50, 0.18);
+      --tile-ring:    rgba(201, 134, 69, 0.5);
+      --tile-shadow:  rgba(80, 45, 16, 0.28);
+      --btn-shadow:   rgba(80, 45, 16, 0.28);
+      --btn-shadow-h: rgba(180, 110, 50, 0.4);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:           #1a1008;
+        --bg-grad-1:    #2e1a08;
+        --bg-grad-2:    #3a200a;
+        --text:         #fdf6ec;
+        --muted:        #e0c8a8;
+        --header-bg:    rgba(0, 0, 0, 0.45);
+        --empty-code-bg:#2e1a08;
+        --accent:       #e0a96d;
+        --accent-hover: #f0b97d;
+        --accent-text:  #3a1f00;
+        --shimmer-mid:  rgba(224, 169, 109, 0.55);
+        --shimmer-far:  rgba(224, 169, 109, 0.2);
+        --tile-ring:    rgba(224, 169, 109, 0.6);
+        --tile-shadow:  rgba(0, 0, 0, 0.5);
+        --btn-shadow:   rgba(0, 0, 0, 0.4);
+        --btn-shadow-h: rgba(224, 169, 109, 0.45);
+      }
+    }
+
     body {
       font-family: 'Georgia', serif;
-      background: #1a1008;
-      color: #fdf6ec;
+      background: var(--bg);
+      color: var(--text);
       height: 100vh;
       width: 100vw;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
     /* ── Animated background gradient ── */
@@ -23,8 +70,8 @@
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse at 20% 50%, #2e1a08 0%, #1a1008 60%),
-                  radial-gradient(ellipse at 80% 20%, #3a200a 0%, transparent 50%);
+      background: radial-gradient(ellipse at 20% 50%, var(--bg-grad-1) 0%, var(--bg) 60%),
+                  radial-gradient(ellipse at 80% 20%, var(--bg-grad-2) 0%, transparent 50%);
       animation: bgPulse 8s ease-in-out infinite alternate;
       z-index: 0;
       pointer-events: none;
@@ -38,7 +85,7 @@
       text-align: center;
       padding: 14px 20px 10px;
       flex-shrink: 0;
-      background: rgba(0,0,0,0.45);
+      background: var(--header-bg);
       backdrop-filter: blur(4px);
       position: relative;
       z-index: 2;
@@ -55,11 +102,11 @@
       animation: shimmer 4s ease-in-out infinite;
     }
     @keyframes shimmer {
-      0%, 100% { text-shadow: 0 0 8px rgba(224,169,109,0); }
-      50%       { text-shadow: 0 0 18px rgba(224,169,109,0.55), 0 0 40px rgba(224,169,109,0.2); }
+      0%, 100% { text-shadow: 0 0 8px transparent; }
+      50%       { text-shadow: 0 0 18px var(--shimmer-mid), 0 0 40px var(--shimmer-far); }
     }
 
-    header p { font-size: 0.95rem; color: #e0c8a8; margin-top: 3px; }
+    header p { font-size: 0.95rem; color: var(--muted); margin-top: 3px; }
 
     /* ── Paw print floating particles ── */
     .paw-particle {
@@ -115,7 +162,7 @@
     }
 
     .tile:hover {
-      box-shadow: 0 0 0 3px rgba(224,169,109,0.6), 0 8px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 0 0 3px var(--tile-ring), 0 8px 30px var(--tile-shadow);
       z-index: 3;
     }
     .tile img, .tile video {
@@ -154,8 +201,8 @@
       bottom: 18px;
       right: 18px;
       z-index: 10;
-      background: #e0a96d;
-      color: #3a1f00;
+      background: var(--accent);
+      color: var(--accent-text);
       border: none;
       border-radius: 50px;
       padding: 10px 22px;
@@ -163,7 +210,7 @@
       font-family: inherit;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 14px var(--btn-shadow);
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       animation: slideUp 0.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
@@ -172,9 +219,9 @@
       to   { transform: translateY(0);    opacity: 1; }
     }
     #shuffle:hover {
-      background: #f0b97d;
+      background: var(--accent-hover);
       transform: scale(1.07);
-      box-shadow: 0 6px 20px rgba(224,169,109,0.45);
+      box-shadow: 0 6px 20px var(--btn-shadow-h);
     }
     #shuffle:active { transform: scale(0.96); }
     #shuffle.spinning { animation: spin 0.4s ease; }
@@ -192,12 +239,12 @@
       flex-direction: column;
       gap: 16px;
       text-align: center;
-      color: #c8a882;
+      color: var(--muted);
       padding: 40px;
       position: relative;
       z-index: 2;
     }
-    #empty code { background: #2e1a08; padding: 2px 8px; border-radius: 6px; font-size: 0.95rem; }
+    #empty code { background: var(--empty-code-bg); padding: 2px 8px; border-radius: 6px; font-size: 0.95rem; }
   </style>
 </head>
 <body>
@@ -310,9 +357,8 @@
     }
 
     shuffleBtn.addEventListener('click', () => {
-      // Spin animation on button
       shuffleBtn.classList.remove('spinning');
-      void shuffleBtn.offsetWidth; // reflow to restart
+      void shuffleBtn.offsetWidth;
       shuffleBtn.classList.add('spinning');
       shuffleBtn.addEventListener('animationend', () => shuffleBtn.classList.remove('spinning'), { once: true });
       render();
