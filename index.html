@@ -18,6 +18,22 @@
       flex-direction: column;
     }
 
+    /* ── Animated background gradient ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, #2e1a08 0%, #1a1008 60%),
+                  radial-gradient(ellipse at 80% 20%, #3a200a 0%, transparent 50%);
+      animation: bgPulse 8s ease-in-out infinite alternate;
+      z-index: 0;
+      pointer-events: none;
+    }
+    @keyframes bgPulse {
+      from { opacity: 0.7; }
+      to   { opacity: 1; }
+    }
+
     header {
       text-align: center;
       padding: 14px 20px 10px;
@@ -26,9 +42,40 @@
       backdrop-filter: blur(4px);
       position: relative;
       z-index: 2;
+      animation: slideDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-    header h1 { font-size: 1.8rem; letter-spacing: 0.02em; }
-    header p  { font-size: 0.95rem; color: #e0c8a8; margin-top: 3px; }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      letter-spacing: 0.02em;
+      animation: shimmer 4s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%, 100% { text-shadow: 0 0 8px rgba(224,169,109,0); }
+      50%       { text-shadow: 0 0 18px rgba(224,169,109,0.55), 0 0 40px rgba(224,169,109,0.2); }
+    }
+
+    header p { font-size: 0.95rem; color: #e0c8a8; margin-top: 3px; }
+
+    /* ── Paw print floating particles ── */
+    .paw-particle {
+      position: fixed;
+      font-size: 1.2rem;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: floatUp var(--dur, 4s) ease-in var(--delay, 0s) infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.35; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
 
     #collage {
       flex: 1;
@@ -36,6 +83,8 @@
       gap: 4px;
       padding: 4px;
       min-height: 0;
+      position: relative;
+      z-index: 2;
     }
 
     #collage.count-1 { grid-template-columns: 1fr; grid-template-rows: 1fr; }
@@ -45,9 +94,7 @@
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
     }
-    #collage.count-3 .tile:first-child {
-      grid-row: 1 / 3;
-    }
+    #collage.count-3 .tile:first-child { grid-row: 1 / 3; }
 
     #collage.count-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 
@@ -56,16 +103,52 @@
       border-radius: 10px;
       position: relative;
       cursor: pointer;
+      opacity: 0;
+      transform: scale(0.92);
+      transition: box-shadow 0.3s ease;
+    }
+    .tile.visible {
+      animation: tileIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes tileIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .tile:hover {
+      box-shadow: 0 0 0 3px rgba(224,169,109,0.6), 0 8px 30px rgba(0,0,0,0.5);
+      z-index: 3;
     }
     .tile img, .tile video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.35s ease;
+      transition: transform 0.45s ease, filter 0.35s ease;
+      filter: brightness(0.95) saturate(1.05);
     }
-    .tile:hover img, .tile:hover video { transform: scale(1.04); }
+    .tile:hover img, .tile:hover video {
+      transform: scale(1.06);
+      filter: brightness(1.08) saturate(1.15);
+    }
 
+    /* ── Tile overlay label ── */
+    .tile::after {
+      content: '🐾';
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      font-size: 1.2rem;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+    .tile:hover::after {
+      opacity: 0.8;
+      transform: translateY(0);
+    }
+
+    /* ── Shuffle button ── */
     #shuffle {
       position: fixed;
       bottom: 18px;
@@ -81,9 +164,25 @@
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-      transition: background 0.2s, transform 0.15s;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      animation: slideUp 0.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-    #shuffle:hover { background: #f0b97d; transform: scale(1.05); }
+    @keyframes slideUp {
+      from { transform: translateY(80px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    #shuffle:hover {
+      background: #f0b97d;
+      transform: scale(1.07);
+      box-shadow: 0 6px 20px rgba(224,169,109,0.45);
+    }
+    #shuffle:active { transform: scale(0.96); }
+    #shuffle.spinning { animation: spin 0.4s ease; }
+    @keyframes spin {
+      0%   { transform: rotate(0deg)   scale(1); }
+      50%  { transform: rotate(180deg) scale(0.9); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
 
     #empty {
       display: none;
@@ -95,6 +194,8 @@
       text-align: center;
       color: #c8a882;
       padding: 40px;
+      position: relative;
+      z-index: 2;
     }
     #empty code { background: #2e1a08; padding: 2px 8px; border-radius: 6px; font-size: 0.95rem; }
   </style>
@@ -110,14 +211,13 @@
 
   <div id="empty">
     <div style="font-size:3rem">📸</div>
-    <p>No photos yet! Add images to the <code>images/</code> folder<br>and register them in the <code>PHOTOS</code> list inside <code>index.html</code>.</p>
+    <p>No photos yet! Add images to the <code>images/</code> folder<br>and register them in the <code>MEDIA</code> list inside <code>index.html</code>.</p>
   </div>
 
   <button id="shuffle" title="Show different photos">🔀 Shuffle</button>
 
   <script>
     // ─────────────────────────────────────────────
-    // Media entries: { file, type } — type is 'image' or 'video'
     const MEDIA = [
       { file: "2025-04-13 11.06.43.jpg",                type: "image" },
       { file: "2025-04-17 08.31.07.jpg",                type: "image" },
@@ -139,10 +239,22 @@
     ];
     // ─────────────────────────────────────────────
 
-    const collage = document.getElementById('collage');
-    const empty   = document.getElementById('empty');
+    const collage     = document.getElementById('collage');
+    const empty       = document.getElementById('empty');
+    const shuffleBtn  = document.getElementById('shuffle');
 
-    // Fisher-Yates shuffle — guaranteed uniform random ordering
+    // ── Floating paw particles ──
+    const PAW_COUNT = 6;
+    for (let i = 0; i < PAW_COUNT; i++) {
+      const p = document.createElement('span');
+      p.className = 'paw-particle';
+      p.textContent = '🐾';
+      p.style.left     = `${Math.random() * 95}%`;
+      p.style.setProperty('--dur',   `${4 + Math.random() * 5}s`);
+      p.style.setProperty('--delay', `${Math.random() * 6}s`);
+      document.body.appendChild(p);
+    }
+
     function shuffle(arr) {
       const a = [...arr];
       for (let i = a.length - 1; i > 0; i--) {
@@ -158,43 +270,54 @@
       if (!MEDIA.length) {
         collage.style.display = 'none';
         empty.style.display   = 'flex';
-        document.getElementById('shuffle').style.display = 'none';
+        shuffleBtn.style.display = 'none';
         return;
       }
 
       const picked = shuffle(MEDIA).slice(0, 4);
       const count  = picked.length;
 
-      collage.className = `count-${count}`;
+      collage.className     = `count-${count}`;
       collage.style.display = 'grid';
       empty.style.display   = 'none';
 
-      picked.forEach(item => {
+      picked.forEach((item, idx) => {
         const tile = document.createElement('div');
         tile.className = 'tile';
 
         if (item.type === 'video') {
           const video = document.createElement('video');
-          video.src = `images/${item.file}`;
-          video.autoplay = true;
-          video.loop = true;
-          video.muted = true;
+          video.src        = `images/${item.file}`;
+          video.autoplay   = true;
+          video.loop       = true;
+          video.muted      = true;
           video.playsInline = true;
           video.setAttribute('aria-label', 'Sammy video 🐾');
           tile.appendChild(video);
         } else {
-          const img = document.createElement('img');
-          img.src = `images/${encodeURIComponent(item.file)}`;
-          img.alt = 'Sammy 🐾';
+          const img   = document.createElement('img');
+          img.src     = `images/${encodeURIComponent(item.file)}`;
+          img.alt     = 'Sammy 🐾';
           img.loading = 'lazy';
           tile.appendChild(img);
         }
 
         collage.appendChild(tile);
+
+        // Staggered fade-in for each tile
+        setTimeout(() => tile.classList.add('visible'), idx * 90);
       });
     }
 
-    document.getElementById('shuffle').addEventListener('click', render);
+    shuffleBtn.addEventListener('click', () => {
+      // Spin animation on button
+      shuffleBtn.classList.remove('spinning');
+      void shuffleBtn.offsetWidth; // reflow to restart
+      shuffleBtn.classList.add('spinning');
+      shuffleBtn.addEventListener('animationend', () => shuffleBtn.classList.remove('spinning'), { once: true });
+      render();
+    });
+
     render();
   </script>
 
