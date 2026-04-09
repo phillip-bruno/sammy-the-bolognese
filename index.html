@@ -265,42 +265,54 @@
 
   <script>
     // ─────────────────────────────────────────────
+    // dir: "images" = images/ subfolder (default)
+    //      "root"   = root of the repo (no subfolder)
     const MEDIA = [
-      { file: "2025-04-13 11.06.43.jpg",                type: "image" },
-      { file: "2025-04-18 16.27.53.jpg",                type: "image" },
-      { file: "2025-08-15 19.03.22.jpg",                type: "image" },
-      { file: "2025-08-15 19.30.52.jpg",                type: "image" },
-      { file: "2025-08-15 19.30.54.jpg",                type: "image" },
-      { file: "2025-08-16 09.43.43.jpg",                type: "image" },
-      { file: "2025-08-16 14.44.30.jpg",                type: "image" },
-      { file: "2025-08-17 10.13.18.jpg",                type: "image" },
-      { file: "2025-08-28 12.09.54.jpg",                type: "image" },
-      { file: "2025-09-04 12.14.39-1.jpg",              type: "image" },
-      { file: "2025-09-08 16.28.43.jpg",                type: "image" },
-      { file: "2025-09-10 17.43.03.jpg",                type: "image" },
-      { file: "2025-09-10 17.44.03.jpg",                type: "image" },
-      { file: "2025-10-16 08.43.15.jpg",                type: "image" },
-      { file: "2025-11-08 14.10.53.jpg",                type: "image" },
-      { file: "2025-11-08 14.58.52.jpg",                type: "image" },
-      { file: "2025-12-17 10.15.55.jpg",                type: "image" },
-      { file: "2025-12-18 12.00.44.jpg",                type: "image" },
-      { file: "2025-12-25 13.49.00.jpg",                type: "image" },
-      { file: "2025-12-25 17.07.48-1.jpg",              type: "image" },
-      { file: "2025-12-25 17.07.57.jpg",                type: "image" },
-      { file: "PXL_20250413_224245362.mp4",             type: "video" },
-      { file: "PXL_20250626_003420709.jpg",             type: "image" },
-      { file: "a_rank_cropped.jpeg",                    type: "image" },
-      { file: "b_rank_cropped.jpg",                     type: "image" },
-      { file: "c_rank_cropped.jpeg",                    type: "image" },
-      { file: "d_rank.jpg",                             type: "image" },
-      { file: "e_rank_cropped.jpeg",                    type: "image" },
-      { file: "s_rank_crop.jpg",                        type: "image" },
-      { file: "signal-2025-06-21-12-57-43-883~2.jpg",   type: "image" },
-      { file: "signal-2026-02-23-134057.jpeg",          type: "image" },
-      { file: "signal-2026-02-23-134057_002.jpeg",      type: "image" },
-      { file: "signal-2026-02-23-134057_003.jpeg",      type: "image" },
-      { file: "signal-2026-02-23-134057_004.jpeg",      type: "image" },
-      { file: "signal-2026-02-23-134057_005.jpeg",      type: "image" }
+      // --- images/ subfolder ---
+      { file: "2025-04-13 11.06.43.jpg",               dir: "images", type: "image" },
+      { file: "2025-04-18 16.27.53.jpg",               dir: "images", type: "image" },
+      { file: "2025-08-15 19.03.22.jpg",               dir: "images", type: "image" },
+      { file: "2025-08-15 19.30.52.jpg",               dir: "images", type: "image" },
+      { file: "2025-08-15 19.30.54.jpg",               dir: "images", type: "image" },
+      { file: "2025-08-16 09.43.43.jpg",               dir: "images", type: "image" },
+      { file: "2025-08-16 14.44.30.jpg",               dir: "images", type: "image" },
+      { file: "2025-08-17 10.13.18.jpg",               dir: "images", type: "image" },
+      { file: "2025-08-28 12.09.54.jpg",               dir: "images", type: "image" },
+      { file: "2025-09-04 12.14.39-1.jpg",             dir: "images", type: "image" },
+      { file: "2025-09-08 16.28.43.jpg",               dir: "images", type: "image" },
+      { file: "2025-09-10 17.43.03.jpg",               dir: "images", type: "image" },
+      { file: "2025-09-10 17.44.03.jpg",               dir: "images", type: "image" },
+      { file: "2025-10-16 08.43.15.jpg",               dir: "images", type: "image" },
+      { file: "2025-11-08 14.10.53.jpg",               dir: "images", type: "image" },
+      { file: "2025-11-08 14.58.52.jpg",               dir: "images", type: "image" },
+      { file: "2025-12-17 10.15.55.jpg",               dir: "images", type: "image" },
+      { file: "2025-12-18 12.00.44.jpg",               dir: "images", type: "image" },
+      { file: "2025-12-25 13.49.00.jpg",               dir: "images", type: "image" },
+      { file: "2025-12-25 17.07.48-1.jpg",             dir: "images", type: "image" },
+      { file: "2025-12-25 17.07.57.jpg",               dir: "images", type: "image" },
+      { file: "PXL_20250413_224245362.mp4",            dir: "images", type: "video" },
+      { file: "PXL_20250626_003420709.jpg",            dir: "images", type: "image" },
+      { file: "a_rank_cropped.jpeg",                   dir: "images", type: "image" },
+      { file: "b_rank_cropped.jpg",                    dir: "images", type: "image" },
+      { file: "c_rank_cropped.jpeg",                   dir: "images", type: "image" },
+      { file: "d_rank.jpg",                            dir: "images", type: "image" },
+      { file: "e_rank_cropped.jpeg",                   dir: "images", type: "image" },
+      { file: "s_rank_crop.jpg",                       dir: "images", type: "image" },
+      { file: "signal-2025-06-21-12-57-43-883~2.jpg",  dir: "images", type: "image" },
+      { file: "signal-2026-02-23-134057.jpeg",         dir: "images", type: "image" },
+      { file: "signal-2026-02-23-134057_002.jpeg",     dir: "images", type: "image" },
+      { file: "signal-2026-02-23-134057_003.jpeg",     dir: "images", type: "image" },
+      { file: "signal-2026-02-23-134057_004.jpeg",     dir: "images", type: "image" },
+      { file: "signal-2026-02-23-134057_005.jpeg",     dir: "images", type: "image" },
+      // --- root folder ---
+      { file: "2025-08-12 10.51.57.jpg",               dir: "root",   type: "image" },
+      { file: "2025-08-12 10.54.24.jpg",               dir: "root",   type: "image" },
+      { file: "2025-08-12 10.54.25.jpg",               dir: "root",   type: "image" },
+      { file: "2025-08-12 10.55.03.jpg",               dir: "root",   type: "image" },
+      { file: "2025-12-17 10.15.55.jpg",               dir: "root",   type: "image" },
+      { file: "2025-12-25 13.49.00.jpg",               dir: "root",   type: "image" },
+      { file: "2025-12-25 17.07.48-1.jpg",             dir: "root",   type: "image" },
+      { file: "2025-12-25 17.07.57.jpg",               dir: "root",   type: "image" }
     ];
     // ─────────────────────────────────────────────
 
@@ -329,6 +341,11 @@
       return a;
     }
 
+    function srcFor(item) {
+      const encoded = encodeURIComponent(item.file);
+      return item.dir === 'root' ? encoded : `images/${encoded}`;
+    }
+
     function render() {
       collage.innerHTML = '';
 
@@ -352,7 +369,7 @@
 
         if (item.type === 'video') {
           const video = document.createElement('video');
-          video.src        = `images/${item.file}`;
+          video.src        = srcFor(item);
           video.autoplay   = true;
           video.loop       = true;
           video.muted      = true;
@@ -361,7 +378,7 @@
           tile.appendChild(video);
         } else {
           const img   = document.createElement('img');
-          img.src     = `images/${encodeURIComponent(item.file)}`;
+          img.src     = srcFor(item);
           img.alt     = 'Sammy 🐾';
           img.loading = 'lazy';
           tile.appendChild(img);
