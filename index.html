@@ -281,6 +281,7 @@
       box-shadow: 0 4px 14px var(--btn-shadow);
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       animation: slideUp 0.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+      min-width: 170px;
     }
 
     @keyframes slideUp {
@@ -361,7 +362,7 @@
       inside <code>index.html</code>.</p>
   </div>
 
-  <button id="shuffle" title="Show different photos">🔀 Shuffle</button>
+  <button id="shuffle" title="Show different photos">🔀 Shuffle (60s)</button>
 
   <script>
     // ─────────────────────────────────────────────
@@ -473,6 +474,8 @@
     ];
     // ─────────────────────────────────────────────
 
+    const AUTO_INTERVAL = 60; // seconds between auto-shuffles
+
     const collage = document.getElementById('collage');
     const empty = document.getElementById('empty');
     const shuffleBtn = document.getElementById('shuffle');
@@ -548,15 +551,42 @@
       });
     }
 
+    // ── Countdown timer ──
+    let countdown = AUTO_INTERVAL;
+    let countdownInterval = null;
+    let autoShuffleTimeout = null;
+
+    function updateButtonLabel() {
+      shuffleBtn.textContent = `🔀 Shuffle (${countdown}s)`;
+    }
+
+    function startCountdown() {
+      clearInterval(countdownInterval);
+      clearTimeout(autoShuffleTimeout);
+      countdown = AUTO_INTERVAL;
+      updateButtonLabel();
+
+      countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown <= 0) {
+          countdown = AUTO_INTERVAL;
+          render();
+        }
+        updateButtonLabel();
+      }, 1000);
+    }
+
     shuffleBtn.addEventListener('click', () => {
       shuffleBtn.classList.remove('spinning');
       void shuffleBtn.offsetWidth;
       shuffleBtn.classList.add('spinning');
       shuffleBtn.addEventListener('animationend', () => shuffleBtn.classList.remove('spinning'), { once: true });
       render();
+      startCountdown();
     });
 
     render();
+    startCountdown();
   </script>
 
 </body>
