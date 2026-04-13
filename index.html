@@ -581,6 +581,11 @@
       void shuffleBtn.offsetWidth;
       shuffleBtn.classList.add('spinning');
       shuffleBtn.addEventListener('animationend', () => shuffleBtn.classList.remove('spinning'), { once: true });
+      window.goatcounter?.count({
+        path: 'shuffle-click',
+        title: 'Shuffle clicked',
+        event: true,
+      });
       render();
       startCountdown();
     });
@@ -588,6 +593,10 @@
     render();
     startCountdown();
   </script>
+
+  <!-- GoatCounter analytics -->
+  <script data-goatcounter="https://sammy-the-bolognese.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 
 </body>
 
