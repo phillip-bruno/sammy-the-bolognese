@@ -358,137 +358,72 @@
 
   <div id="empty">
     <div style="font-size:3rem">📸</div>
-    <p>No photos yet! Add images to the <code>images/</code> folder<br>and register them in the <code>MEDIA</code> list
-      inside <code>index.html</code>.</p>
+    <p>No photos yet! Add images to the <code>images/</code> folder<br>and they'll appear here automatically.</p>
   </div>
 
   <button id="shuffle" title="Show different photos">🔀 Shuffle (10s)</button>
 
   <script>
     // ─────────────────────────────────────────────
-    // dir: "images" = images/ subfolder (default)
-    //      "root"   = root of the repo (no subfolder)
-    const MEDIA = [
-      // --- images/ subfolder ---
-      { file: "2024-07-05 19.39.57.jpg", dir: "images", type: "image" },
-      { file: "2024-07-08 19.07.28.jpg", dir: "images", type: "image" },
-      { file: "2024-07-08 19.28.22-1.jpg", dir: "images", type: "image" },
-      { file: "2024-07-08 19.28.27.jpg", dir: "images", type: "image" },
-      { file: "2024-07-08 19.28.52-1.jpg", dir: "images", type: "image" },
-      { file: "2024-07-08 19.32.29.jpg", dir: "images", type: "image" },
-      { file: "2024-07-08 19.32.36.jpg", dir: "images", type: "image" },
-      { file: "2025-02-23 17.08.00.jpg", dir: "images", type: "image" },
-      { file: "2025-03-31 19.02.35.jpg", dir: "images", type: "image" },
-      { file: "2025-03-31 19.02.38.jpg", dir: "images", type: "image" },
-      { file: "2025-04-02 17.52.38.jpg", dir: "images", type: "image" },
-      { file: "2025-04-13 11.06.13.jpg", dir: "images", type: "image" },
-      { file: "2025-04-13 11.06.43.jpg", dir: "images", type: "image" },
-      { file: "2025-04-18 16.27.53.jpg", dir: "images", type: "image" },
-      { file: "2025-04-18 16.28.02.jpg", dir: "images", type: "image" },
-      { file: "2025-04-21 12.02.43.jpg", dir: "images", type: "image" },
-      { file: "2025-04-27 11.29.24.jpg", dir: "images", type: "image" },
-      { file: "2025-04-30 18.09.52.jpg", dir: "images", type: "image" },
-      { file: "2025-05-01 18.56.45.jpg", dir: "images", type: "image" },
-      { file: "2025-05-02 09.18.29.jpg", dir: "images", type: "image" },
-      { file: "2025-05-02 11.59.52.jpg", dir: "images", type: "image" },
-      { file: "2025-05-12 20.59.46.jpg", dir: "images", type: "image" },
-      { file: "2025-05-13 11.24.01.jpg", dir: "images", type: "image" },
-      { file: "2025-05-13 11.24.24.jpg", dir: "images", type: "image" },
-      { file: "2025-05-18 12.11.55.jpg", dir: "images", type: "image" },
-      { file: "2025-05-21 18.58.07.jpg", dir: "images", type: "image" },
-      { file: "2025-05-22 16.19.16.jpg", dir: "images", type: "image" },
-      { file: "2025-05-22 16.19.50.jpg", dir: "images", type: "image" },
-      { file: "2025-05-22 18.46.05.jpg", dir: "images", type: "image" },
-      { file: "2025-05-22 19.21.08.jpg", dir: "images", type: "image" },
-      { file: "2025-05-22 19.24.23.jpg", dir: "images", type: "image" },
-      { file: "2025-05-22 19.27.46.jpg", dir: "images", type: "image" },
-      { file: "2025-05-22 19.30.39.jpg", dir: "images", type: "image" },
-      { file: "2025-05-25 11.31.52.jpg", dir: "images", type: "image" },
-      { file: "2025-05-25 11.32.23.jpg", dir: "images", type: "image" },
-      { file: "2025-05-25 11.56.11.jpg", dir: "images", type: "image" },
-      { file: "2025-05-25 12.02.09-1.jpg", dir: "images", type: "image" },
-      { file: "2025-05-25 15.04.42.jpg", dir: "images", type: "image" },
-      { file: "2025-05-25 20.09.34.jpg", dir: "images", type: "image" },
-      { file: "2025-05-27 20.43.37.jpg", dir: "images", type: "image" },
-      { file: "2025-05-30 08.51.23.jpg", dir: "images", type: "image" },
-      { file: "2025-06-02 13.29.08.jpg", dir: "images", type: "image" },
-      { file: "2025-06-13 15.09.09.jpg", dir: "images", type: "image" },
-      { file: "2025-07-06 11.30.51.jpg", dir: "images", type: "image" },
-      { file: "2025-07-10 18.37.28.jpg", dir: "images", type: "image" },
-      { file: "2025-07-11 08.40.04.jpg", dir: "images", type: "image" },
-      { file: "2025-07-13 19.07.52.jpg", dir: "images", type: "image" },
-      { file: "2025-07-13 19.08.13.jpg", dir: "images", type: "image" },
-      { file: "2025-07-14 18.25.19.jpg", dir: "images", type: "image" },
-      { file: "2025-07-19 14.32.48.jpg", dir: "images", type: "image" },
-      { file: "2025-07-27 11.31.11.jpg", dir: "images", type: "image" },
-      { file: "2025-07-27 11.31.23.jpg", dir: "images", type: "image" },
-      { file: "2025-08-12 10.51.49.jpg", dir: "images", type: "image" },
-      { file: "2025-08-12 10.51.57.jpg", dir: "images", type: "image" },
-      { file: "2025-08-12 10.54.24.jpg", dir: "images", type: "image" },
-      { file: "2025-08-12 10.54.25.jpg", dir: "images", type: "image" },
-      { file: "2025-08-12 10.55.03.jpg", dir: "images", type: "image" },
-      { file: "2025-08-15 19.03.22.jpg", dir: "images", type: "image" },
-      { file: "2025-08-15 19.30.52.jpg", dir: "images", type: "image" },
-      { file: "2025-08-15 19.30.54.jpg", dir: "images", type: "image" },
-      { file: "2025-08-16 09.43.43.jpg", dir: "images", type: "image" },
-      { file: "2025-08-16 14.44.30.jpg", dir: "images", type: "image" },
-      { file: "2025-08-17 10.13.18.jpg", dir: "images", type: "image" },
-      { file: "2025-08-28 12.09.54.jpg", dir: "images", type: "image" },
-      { file: "2025-09-04 12.14.39-1.jpg", dir: "images", type: "image" },
-      { file: "2025-09-06 09.19.29.jpg", dir: "images", type: "image" },
-      { file: "2025-09-08 16.28.43.jpg", dir: "images", type: "image" },
-      { file: "2025-09-08 21.26.49.jpg", dir: "images", type: "image" },
-      { file: "2025-09-10 17.43.00.jpg", dir: "images", type: "image" },
-      { file: "2025-09-10 17.43.03.jpg", dir: "images", type: "image" },
-      { file: "2025-09-10 17.44.03.jpg", dir: "images", type: "image" },
-      { file: "2025-10-08 11.09.20.jpg", dir: "images", type: "image" },
-      { file: "2025-10-10 12.41.07.jpg", dir: "images", type: "image" },
-      { file: "2025-10-11 16.26.06.jpg", dir: "images", type: "image" },
-      { file: "2025-10-11 16.29.01.jpg", dir: "images", type: "image" },
-      { file: "2025-10-14 11.24.02.jpg", dir: "images", type: "image" },
-      { file: "2025-10-16 08.43.15.jpg", dir: "images", type: "image" },
-      { file: "2025-10-18 11.20.34.jpg", dir: "images", type: "image" },
-      { file: "2025-10-20 09.51.34.jpg", dir: "images", type: "image" },
-      { file: "2025-10-20 09.51.41.jpg", dir: "images", type: "image" },
-      { file: "2025-11-08 14.10.53.jpg", dir: "images", type: "image" },
-      { file: "2025-11-08 14.58.52.jpg", dir: "images", type: "image" },
-      { file: "2025-12-17 10.15.55.jpg", dir: "images", type: "image" },
-      { file: "2025-12-18 12.00.44.jpg", dir: "images", type: "image" },
-      { file: "2025-12-25 13.49.00.jpg", dir: "images", type: "image" },
-      { file: "2025-12-25 17.07.48-1.jpg", dir: "images", type: "image" },
-      { file: "2025-12-25 17.07.57.jpg", dir: "images", type: "image" },
-      { file: "2026-03-12 11.48.59-1.jpg", dir: "images", type: "image" },
-      { file: "PXL_20250413_224245362.mp4", dir: "images", type: "video" },
-      { file: "PXL_20250626_003420709.jpg", dir: "images", type: "image" },
-      { file: "PXL_20250626_003430901.mp4", dir: "images", type: "video" },
-      { file: "PXL_20250817_140946444.jpg", dir: "images", type: "image" },
-      { file: "PXL_20250817_140954607.jpg", dir: "images", type: "image" },
-      { file: "PXL_20250819_222759969.NIGHT.jpg", dir: "images", type: "image" },
-      { file: "PXL_20250819_222817645.NIGHT.jpg", dir: "images", type: "image" },
-      { file: "PXL_20250920_001029733.jpg", dir: "images", type: "image" },
-      { file: "PXL_20250920_001033490.mp4", dir: "images", type: "video" },
-      { file: "PXL_20250920_001058895.jpg", dir: "images", type: "image" },
-      { file: "PXL_20260308_021529020.jpg", dir: "images", type: "image" },
-      { file: "a_rank_cropped.jpeg", dir: "images", type: "image" },
-      { file: "b_rank_cropped.jpg", dir: "images", type: "image" },
-      { file: "c_rank_cropped.jpeg", dir: "images", type: "image" },
-      { file: "d_rank.jpg", dir: "images", type: "image" },
-      { file: "e_rank_cropped.jpeg", dir: "images", type: "image" },
-      { file: "s_rank_crop.jpg", dir: "images", type: "image" },
-      { file: "signal-2025-06-21-12-57-43-883~2.jpg", dir: "images", type: "image" },
-      { file: "signal-2025-08-16-22-15-57-883.jpg", dir: "images", type: "image" },
-      { file: "signal-2026-02-23-134057.jpeg", dir: "images", type: "image" },
-      { file: "signal-2026-02-23-134057_002.jpeg", dir: "images", type: "image" },
-      { file: "signal-2026-02-23-134057_003.jpeg", dir: "images", type: "image" },
-      { file: "signal-2026-02-23-134057_004.jpeg", dir: "images", type: "image" },
-      { file: "signal-2026-02-23-134057_005.jpeg", dir: "images", type: "image" },
-    ];
+    // Media is loaded dynamically from the GitHub Contents API.
+    // The result is cached in localStorage for CACHE_TTL_MS (6 hours).
+    // No manual MEDIA list needed — just drop files into images/ and commit.
     // ─────────────────────────────────────────────
+
+    const REPO_OWNER   = 'phillip-bruno';
+    const REPO_NAME    = 'sammy-the-bolognese';
+    const IMAGES_DIR   = 'images';
+    const CACHE_KEY    = 'sammy_media_cache';
+    const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
+
+    const IMAGE_EXTS = /\.(jpe?g|png|gif|webp|avif)$/i;
+    const VIDEO_EXTS = /\.(mp4|webm|mov)$/i;
 
     const AUTO_INTERVAL = 10; // seconds between auto-shuffles
 
-    const collage = document.getElementById('collage');
-    const empty = document.getElementById('empty');
+    let MEDIA = [];
+
+    // ── Media loading with localStorage cache ──
+    async function loadMedia() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          const cached = JSON.parse(raw);
+          if (Date.now() - cached.timestamp < CACHE_TTL_MS) {
+            return cached.media;
+          }
+        }
+      } catch (_) {
+        // Corrupt cache entry — fall through to fetch
+      }
+
+      const res = await fetch(
+        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${IMAGES_DIR}`
+      );
+      if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+
+      const files = await res.json();
+      const media = files
+        .filter(f => f.type === 'file' && (IMAGE_EXTS.test(f.name) || VIDEO_EXTS.test(f.name)))
+        .map(f => ({
+          file: f.name,
+          dir: IMAGES_DIR,
+          type: VIDEO_EXTS.test(f.name) ? 'video' : 'image',
+        }));
+
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), media }));
+      } catch (_) {
+        // localStorage unavailable (e.g. private browsing quota) — just skip caching
+      }
+
+      return media;
+    }
+
+    // ─────────────────────────────────────────────
+
+    const collage    = document.getElementById('collage');
+    const empty      = document.getElementById('empty');
     const shuffleBtn = document.getElementById('shuffle');
 
     // ── Floating paw particles ──
@@ -514,7 +449,7 @@
 
     function srcFor(item) {
       const encoded = encodeURIComponent(item.file);
-      return item.dir === 'root' ? encoded : `images/${encoded}`;
+      return item.dir === 'root' ? encoded : `${item.dir}/${encoded}`;
     }
 
     function render() {
@@ -528,7 +463,7 @@
       }
 
       const picked = shuffle(MEDIA).slice(0, 4);
-      const count = picked.length;
+      const count  = picked.length;
 
       collage.className = `count-${count}`;
       collage.style.display = 'grid';
@@ -556,16 +491,13 @@
         }
 
         collage.appendChild(tile);
-
-        // Staggered fade-in for each tile
         setTimeout(() => tile.classList.add('visible'), idx * 90);
       });
     }
 
     // ── Countdown timer ──
-    let countdown = AUTO_INTERVAL;
+    let countdown         = AUTO_INTERVAL;
     let countdownInterval = null;
-    let autoShuffleTimeout = null;
 
     function updateButtonLabel() {
       shuffleBtn.textContent = `🔀 Shuffle (${countdown}s)`;
@@ -573,7 +505,6 @@
 
     function startCountdown() {
       clearInterval(countdownInterval);
-      clearTimeout(autoShuffleTimeout);
       countdown = AUTO_INTERVAL;
       updateButtonLabel();
 
@@ -601,8 +532,18 @@
       startCountdown();
     });
 
-    render();
-    startCountdown();
+    // ── Bootstrap: load media then start ──
+    loadMedia()
+      .then(media => {
+        MEDIA = media;
+      })
+      .catch(() => {
+        MEDIA = [];
+      })
+      .finally(() => {
+        render();
+        startCountdown();
+      });
   </script>
 
   <!-- GoatCounter analytics -->
