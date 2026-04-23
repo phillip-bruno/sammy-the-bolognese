@@ -383,6 +383,9 @@
 
     let MEDIA = [];
 
+    // ── Track currently displayed images to avoid immediate repeats ──
+    let currentlyShown = new Set();
+
     // ── Media loading with localStorage cache ──
     async function loadMedia() {
       try {
@@ -462,7 +465,14 @@
         return;
       }
 
-      const picked = shuffle(MEDIA).slice(0, 4);
+      // Prefer images not currently on screen; fall back to full pool if too few available
+      const available = MEDIA.filter(m => !currentlyShown.has(m.file));
+      const pool = available.length >= 4 ? available : MEDIA;
+      const picked = shuffle(pool).slice(0, 4);
+
+      // Update the exclusion set for next render
+      currentlyShown = new Set(picked.map(m => m.file));
+
       const count  = picked.length;
 
       collage.className = `count-${count}`;
