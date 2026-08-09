@@ -1,0 +1,55 @@
+name: Build gallery
+
+# Runs whenever media lands in images/, and rewrites images.json, the
+# thumbnails and og-image.jpg to match. The thumbs/ subfolder is excluded so
+# the workflow's own commit can't retrigger it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'images/**'
+      - '!images/thumbs/**'
+      - 'scripts/build_gallery.py'
+      - '.github/workflows/build-gallery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-gallery
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install Pillow
+        run: pip install --disable-pip-version-check 'Pillow>=10.2'
+
+      # ffmpeg/ffprobe ship with the ubuntu-latest runner and are used for
+      # video dimensions and poster frames.
+      - name: Check ffmpeg
+        run: ffprobe -version | head -1
+
+      - name: Build manifest, thumbnails and social image
+        run: python scripts/build_gallery.py
+
+      - name: Commit derived files
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add images.json og-image.jpg images/thumbs
+          if git diff --cached --quiet; then
+            echo 'Nothing changed.'
+            exit 0
+          fi
+          git commit -m 'Rebuild gallery manifest and thumbnails [skip ci]'
+          git push
