@@ -1,6 +1,6 @@
 {
- "generated": "2026-08-09T19:10:53+00:00",
- "count": 188,
+ "generated": "2026-08-09T19:35:10+00:00",
+ "count": 185,
  "media": [
   {
    "file": "images/07062026-3s6jin.png",
@@ -1155,26 +1155,12 @@
    "large": "images/thumbs/IMG_20250908_144602-1200.webp"
   },
   {
-   "file": "images/PXL_20250413_224245362.mp4",
-   "type": "video",
-   "w": 1920,
-   "h": 1080,
-   "poster": "images/thumbs/PXL_20250413_224245362-poster.jpg"
-  },
-  {
    "file": "images/PXL_20250626_003420709.jpg",
    "type": "image",
    "w": 6144,
    "h": 8160,
    "small": "images/thumbs/PXL_20250626_003420709-600.webp",
    "large": "images/thumbs/PXL_20250626_003420709-1200.webp"
-  },
-  {
-   "file": "images/PXL_20250626_003430901.mp4",
-   "type": "video",
-   "w": 1080,
-   "h": 1920,
-   "poster": "images/thumbs/PXL_20250626_003430901-poster.jpg"
   },
   {
    "file": "images/PXL_20250817_140946444.jpg",
@@ -1215,13 +1201,6 @@
    "h": 8160,
    "small": "images/thumbs/PXL_20250920_001029733-600.webp",
    "large": "images/thumbs/PXL_20250920_001029733-1200.webp"
-  },
-  {
-   "file": "images/PXL_20250920_001033490.mp4",
-   "type": "video",
-   "w": 1080,
-   "h": 1920,
-   "poster": "images/thumbs/PXL_20250920_001033490-poster.jpg"
   },
   {
    "file": "images/PXL_20250920_001058895.jpg",
