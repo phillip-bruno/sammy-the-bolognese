@@ -10,6 +10,7 @@ on:
       - 'images/**'
       - '!images/thumbs/**'
       - 'scripts/build_gallery.py'
+      - 'requirements.txt'
       - '.github/workflows/build-gallery.yml'
   workflow_dispatch:
 
@@ -24,15 +25,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      # v6 runs on Node 24. Node 20 leaves the runners in September 2026.
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-          cache: pip
+          cache: pip                 # keys off requirements.txt
 
-      - name: Install Pillow
-        run: pip install --disable-pip-version-check 'Pillow>=10.2'
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check -r requirements.txt
 
       # ffmpeg/ffprobe ship with the ubuntu-latest runner and are used for
       # video dimensions and poster frames.

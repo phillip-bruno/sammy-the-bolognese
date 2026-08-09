@@ -25,7 +25,7 @@ photos come out the right way up.
 ## Running the build locally
 
 ```sh
-pip install 'Pillow>=10.2'      # ffmpeg is also needed, for videos only
+pip install -r requirements.txt   # ffmpeg is also needed, for videos only
 python scripts/build_gallery.py
 ```
 
