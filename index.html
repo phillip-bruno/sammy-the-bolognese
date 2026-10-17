@@ -1187,7 +1187,9 @@
 
       if (item.type === 'video') {
         const video = document.createElement('video');
-        video.src = url(item.file);
+        // `src` is the build's H.264 copy; originals are usually HEVC, which
+        // Firefox and many Chrome installs can't decode.
+        video.src = url(item.src || item.file);
         video.controls = true;
         video.autoplay = true;
         video.loop = true;

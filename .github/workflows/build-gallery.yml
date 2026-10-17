@@ -36,10 +36,14 @@ jobs:
       - name: Install dependencies
         run: pip install --disable-pip-version-check -r requirements.txt
 
-      # ffmpeg/ffprobe ship with the ubuntu-latest runner and are used for
-      # video dimensions and poster frames.
-      - name: Check ffmpeg
-        run: ffprobe -version | head -1
+      # ffmpeg is not preinstalled on ubuntu-latest. It's used for video
+      # dimensions, poster frames and the H.264 copies browsers can play.
+      # Ubuntu's build includes zscale, which the HDR tone-mapping needs.
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends ffmpeg
+          ffmpeg -hide_banner -version | head -1
 
       - name: Build manifest, thumbnails and social image
         run: python scripts/build_gallery.py

@@ -15,17 +15,19 @@ On push, the **Build gallery** workflow regenerates:
 | --- | --- |
 | `images.json` | The manifest the page reads: filenames, dimensions, media type |
 | `images/thumbs/*-600.webp`, `*-1200.webp` | Tile-sized renditions, picked per screen |
-| `images/thumbs/*-poster.jpg` | First-frame posters for videos |
+| `images/thumbs/*-web.mp4` | H.264 copies of videos (phones record HEVC, which many browsers can't play) |
+| `images/thumbs/*-poster.jpg` | Poster frames for videos |
 | `og-image.jpg` | 1200×630 preview shown when the link is shared |
 
 Supported: `.jpg` `.jpeg` `.png` `.webp` `.gif` `.avif` `.mp4` `.webm` `.mov`.
 Phone rotation (EXIF / video rotation metadata) is baked in, so sideways
-photos come out the right way up.
+photos come out the right way up. Derived files for anything you delete
+from `images/` are removed on the next build.
 
 ## Running the build locally
 
 ```sh
-pip install -r requirements.txt   # ffmpeg is also needed, for videos only
+pip install -r requirements.txt   # plus ffmpeg (with zscale for HDR) if there are videos
 python scripts/build_gallery.py
 ```
 
@@ -42,7 +44,8 @@ It only rebuilds files whose source is newer, so re-running is cheap.
 - Tile count follows the viewport — 2 on a phone, up to 8 on a large display.
 - The next set is preloaded during the idle window, so shuffles are instant.
 - Videos show a poster frame in the grid and only download when opened. The
-  largest is 19 MB.
+  viewer plays the H.264 copy: capped at 1080p and 60fps, HDR tone-mapped to
+  SDR, and stripped of metadata.
 - If `images.json` is missing, the page falls back to the GitHub Contents API
   so it still works before the first build runs.
 
