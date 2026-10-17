@@ -782,7 +782,8 @@
     const INTERVAL_S = 10;
     const GAP = 6;
     const FALLBACK_AR = 0.75;   // ~95% of this collection is portrait
-    const HISTORY_BATCHES = 3;  // how far back to avoid repeats
+    const SEEN_KEY = 'sammy_seen_v1';
+    const RECENT_COUNT = 16;    // last-shown items kept off the start of a new pass
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -808,7 +809,8 @@
       media: [],
       batch: [],
       nextBatch: [],
-      history: [],
+      deck: [],             // items still to deal this pass, in order
+      seen: new Set(),      // files shown this pass, oldest first
       playing: false,
       lbIndex: null,
       lastFocus: null,
@@ -889,21 +891,69 @@
       return 8;
     }
 
-    /**
-     * Pick n items, preferring ones not shown in the last few batches.
-     * The previous logic fell back to the whole pool the moment fewer than
-     * four unseen items remained, which made repeats near-certain on small
-     * collections. This tops up from the seen pile instead.
-     */
-    function pick(n) {
-      const seen = new Set(state.history.flat());
-      const fresh = shuffled(state.media.filter(m => !seen.has(m.file)));
-      const stale = shuffled(state.media.filter(m => seen.has(m.file)));
-      const chosen = fresh.concat(stale).slice(0, Math.min(n, state.media.length));
+    // Items are dealt from a shuffled deck, so everything is shown once before
+    // anything repeats. The old approach only avoided the last three batches,
+    // which on a 200-photo collection meant about a third of tiles were
+    // repeats by the time everything could have been seen once.
+    //
+    // What this browser has seen is kept in localStorage, so a reload or a
+    // return visit carries on through the deck instead of starting over.
 
-      state.history.push(chosen.map(m => m.file));
-      if (state.history.length > HISTORY_BATCHES) state.history.shift();
+    /** Rebuild the deck from this browser's seen list. Call after loading media. */
+    function restoreSeen() {
+      const files = new Set(state.media.map(m => m.file));
+      try {
+        const saved = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]');
+        // Drop anything deleted since; new uploads are simply unseen.
+        state.seen = new Set(saved.filter(f => files.has(f)));
+      } catch (_) {
+        state.seen = new Set();   // blocked or corrupt storage, start a fresh pass
+      }
+      state.deck = shuffled(state.media.filter(m => !state.seen.has(m.file)));
+    }
+
+    /**
+     * Start a new pass. Recently seen items go to the bottom of the new deck,
+     * with whatever is on screen right now at the very bottom, so the seam
+     * between passes can't put the same photo straight back up. `dealing` is
+     * the batch being built right now; those are already spoken for.
+     */
+    function reshuffle(dealing) {
+      const held = new Set(dealing.map(m => m.file));
+      const onScreen = new Set(state.batch.map(m => m.file));
+      const recent = new Set([...state.seen].slice(-RECENT_COUNT));
+      state.seen.clear();
+
+      const rest = state.media.filter(m => !held.has(m.file));
+      const tier = m => (onScreen.has(m.file) ? 2 : recent.has(m.file) ? 1 : 0);
+      state.deck = [0, 1, 2].flatMap(t => shuffled(rest.filter(m => tier(m) === t)));
+    }
+
+    /** Deal n items off the deck. Nothing counts as seen until it's rendered. */
+    function pick(n) {
+      const chosen = [];
+      const want = Math.min(n, state.media.length);
+      while (chosen.length < want) {
+        if (!state.deck.length) reshuffle(chosen);
+        chosen.push(state.deck.shift());
+      }
       return chosen;
+    }
+
+    /** Put dealt-but-never-shown items back on top for next time. */
+    function returnToDeck(items) {
+      const files = new Set(items.map(m => m.file));
+      state.deck = items.concat(state.deck.filter(m => !files.has(m.file)));
+    }
+
+    function markShown(items) {
+      for (const m of items) {
+        state.seen.delete(m.file);   // re-adding keeps the set in shown order
+        state.seen.add(m.file);
+      }
+      try {
+        localStorage.setItem(SEEN_KEY, JSON.stringify([...state.seen]));
+      } catch (_) { /* private browsing, remember for this visit only */ }
     }
 
     // ── Justified layout ───────────────────────────────────────────
@@ -996,6 +1046,7 @@
 
       state.batch = state.nextBatch.length ? state.nextBatch : pick(tileCount());
       state.nextBatch = [];
+      markShown(state.batch);
 
       const W = el.main.clientWidth - GAP * 2;
       const H = el.main.clientHeight - GAP * 2;
@@ -1198,7 +1249,9 @@
       resizeTimer = setTimeout(() => {
         if (!state.batch.length) return;
         // Keep the same photos when only the shape changed; re-pick when
-        // rotating or resizing moves us into a different tile budget.
+        // rotating or resizing moves us into a different tile budget. Either
+        // way the pre-picked batch is discarded, so hand it back to the deck.
+        returnToDeck(state.nextBatch);
         state.nextBatch = tileCount() === state.batch.length ? state.batch : [];
         render();
       }, 180);
@@ -1226,6 +1279,7 @@
         setPanel('error');
         return;
       }
+      restoreSeen();
       render();
       // Auto-advancing content has to be stoppable, so this is a real control
       // rather than a timer nobody can reach. Anyone who asked their OS for
