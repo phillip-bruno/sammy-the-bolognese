@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-17T20:05:23+00:00",
- "count": 201,
+ "generated": "2026-10-17T20:37:30+00:00",
+ "count": 207,
  "media": [
   {
    "file": "images/07062026-3s6jin.png",
@@ -1259,12 +1259,28 @@
    "large": "images/thumbs/IMG_20250908_144602-1200.webp"
   },
   {
+   "file": "images/PXL_20250413_224245362.mp4",
+   "type": "video",
+   "w": 1920,
+   "h": 1080,
+   "src": "images/thumbs/PXL_20250413_224245362-web.mp4",
+   "poster": "images/thumbs/PXL_20250413_224245362-poster.jpg"
+  },
+  {
    "file": "images/PXL_20250626_003420709.jpg",
    "type": "image",
    "w": 6144,
    "h": 8160,
    "small": "images/thumbs/PXL_20250626_003420709-600.webp",
    "large": "images/thumbs/PXL_20250626_003420709-1200.webp"
+  },
+  {
+   "file": "images/PXL_20250626_003430901.mp4",
+   "type": "video",
+   "w": 1080,
+   "h": 1920,
+   "src": "images/thumbs/PXL_20250626_003430901-web.mp4",
+   "poster": "images/thumbs/PXL_20250626_003430901-poster.jpg"
   },
   {
    "file": "images/PXL_20250817_140946444.jpg",
@@ -1305,6 +1321,14 @@
    "h": 8160,
    "small": "images/thumbs/PXL_20250920_001029733-600.webp",
    "large": "images/thumbs/PXL_20250920_001029733-1200.webp"
+  },
+  {
+   "file": "images/PXL_20250920_001033490.mp4",
+   "type": "video",
+   "w": 1080,
+   "h": 1920,
+   "src": "images/thumbs/PXL_20250920_001033490-web.mp4",
+   "poster": "images/thumbs/PXL_20250920_001033490-poster.jpg"
   },
   {
    "file": "images/PXL_20250920_001058895.jpg",
@@ -1435,6 +1459,38 @@
    "large": "images/thumbs/PXL_20260801_225455115-1200.webp"
   },
   {
+   "file": "images/Signal-2026-10-12-20-53-55-607 002.mp4",
+   "type": "video",
+   "w": 576,
+   "h": 768,
+   "src": "images/thumbs/Signal-2026-10-12-20-53-55-607-002-web.mp4",
+   "poster": "images/thumbs/Signal-2026-10-12-20-53-55-607-002-poster.jpg"
+  },
+  {
+   "file": "images/Signal-2026-10-12-20-53-55-607 003.mp4",
+   "type": "video",
+   "w": 576,
+   "h": 768,
+   "src": "images/thumbs/Signal-2026-10-12-20-53-55-607-003-web.mp4",
+   "poster": "images/thumbs/Signal-2026-10-12-20-53-55-607-003-poster.jpg"
+  },
+  {
+   "file": "images/Signal-2026-10-12-20-53-55-607 004.mp4",
+   "type": "video",
+   "w": 576,
+   "h": 768,
+   "src": "images/thumbs/Signal-2026-10-12-20-53-55-607-004-web.mp4",
+   "poster": "images/thumbs/Signal-2026-10-12-20-53-55-607-004-poster.jpg"
+  },
+  {
+   "file": "images/Signal-2026-10-12-20-53-55-607.mp4",
+   "type": "video",
+   "w": 576,
+   "h": 768,
+   "src": "images/thumbs/Signal-2026-10-12-20-53-55-607-web.mp4",
+   "poster": "images/thumbs/Signal-2026-10-12-20-53-55-607-poster.jpg"
+  },
+  {
    "file": "images/WIN_20250513_18_27_34_Pro.jpg",
    "type": "image",
    "w": 1920,
@@ -1521,14 +1577,6 @@
    "h": 2048,
    "small": "images/thumbs/signal-2025-08-16-22-15-57-883-600.webp",
    "large": "images/thumbs/signal-2025-08-16-22-15-57-883-1200.webp"
-  },
-  {
-   "file": "images/signal-2026-02-23-134057.jpeg",
-   "type": "image",
-   "w": 1536,
-   "h": 2048,
-   "small": "images/thumbs/signal-2026-02-23-134057-600.webp",
-   "large": "images/thumbs/signal-2026-02-23-134057-1200.webp"
   },
   {
    "file": "images/signal-2026-02-23-134057_002.jpeg",
